@@ -1,5 +1,24 @@
 # Disable-InactiveUsers PowerShell Script Suite
 
+> **⚠️ IMPORTANT:** This repository now includes both on-premises and Azure Automation versions. For new deployments, we recommend using the **Azure Automation version** for better security, reliability, and management.
+
+## Versions Available
+
+### 🆕 Azure Automation Version (Recommended)
+- **Main Files**: `AzureAutomation-DisableInactiveUsers.ps1`, `Setup-AzureAutomation.ps1`
+- **Documentation**: See `README-AzureAutomation.md`
+- **Benefits**: Managed identity authentication, cloud-native, centralized management
+- **Migration Guide**: See `Migration-Guide.md` for transitioning from on-premises
+
+### 📋 On-Premises Version (Legacy)
+- **Main Files**: `Disable-InactiveUsers.ps1`, `Config-DisableInactiveUsers.ps1`
+- **Documentation**: See below
+- **Use Case**: For environments requiring on-premises execution
+
+---
+
+## Original On-Premises Documentation
+
 This suite provides automated management of inactive user accounts across Active Directory and Entra ID (Azure AD).
 
 ## Features
