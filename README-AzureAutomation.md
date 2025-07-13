@@ -5,6 +5,7 @@ This repository contains an Azure Automation solution for automatically disablin
 ## Features
 
 - **Azure Automation Native**: Designed specifically for Azure Automation with managed identity authentication
+- **Hybrid Worker Support**: Uses Hybrid Runbook Worker for Active Directory connectivity
 - **Multi-Platform Support**: Handles Active Directory, Entra ID cloud users, and Entra ID guest users
 - **Multi-Domain Active Directory**: Supports multiple AD domains with Azure Automation credentials
 - **Secure Authentication**: Uses Azure Automation managed identity for Graph API access
@@ -22,7 +23,8 @@ This repository contains an Azure Automation solution for automatically disablin
 ### Core Files
 1. **AzureAutomation-DisableInactiveUsers.ps1** - Main runbook for Azure Automation
 2. **Setup-AzureAutomation.ps1** - Setup script for configuring Azure Automation
-3. **AzureAutomation-Config.ps1** - Configuration template and examples
+3. **Setup-HybridWorker.ps1** - Setup script for configuring Hybrid Runbook Worker
+4. **AzureAutomation-Config.ps1** - Configuration template and examples
 
 ### Legacy Files (for reference)
 - **Disable-InactiveUsers.ps1** - Original on-premises version
@@ -37,6 +39,7 @@ This repository contains an Azure Automation solution for automatically disablin
 
 1. **Azure Resources**:
    - Azure Automation Account with system-assigned managed identity enabled
+   - Hybrid Runbook Worker configured and domain-joined
    - Azure Storage Account for logging
    - Microsoft 365 tenant
 
@@ -48,9 +51,18 @@ This repository contains an Azure Automation solution for automatically disablin
 3. **PowerShell Modules** (installed automatically):
    - Az.Accounts, Az.Automation, Az.Storage, Az.Resources
    - Microsoft.Graph modules
-   - ActiveDirectory module
+   - ActiveDirectory module (on Hybrid Worker)
 
-### Step 1: Configure Your Environment
+### Step 1: Set Up Hybrid Runbook Worker
+
+Before configuring the runbook, you need to set up a Hybrid Runbook Worker for Active Directory connectivity:
+
+```powershell
+# Run on a domain-joined server
+.\Setup-HybridWorker.ps1 -ResourceGroupName "rg-automation-iam" -AutomationAccountName "aa-disable-inactive-users" -HybridWorkerGroupName "ADWorkers"
+```
+
+### Step 2: Configure Your Environment
 
 1. Copy and edit the `AzureAutomation-Config.ps1` file:
 
@@ -72,11 +84,12 @@ $AzureAutomationConfig = @{
     }
     
     ExcludeGroups = "Domain Admins,Enterprise Admins,Service Accounts"
+    HybridWorkerGroup = "ADWorkers"  # Name of your Hybrid Worker Group
     # ... other settings
 }
 ```
 
-### Step 2: Run the Setup Script
+### Step 3: Run the Setup Script
 
 ```powershell
 # Run the setup script
@@ -89,19 +102,20 @@ This script will:
 - Install required PowerShell modules
 - Create and publish the runbook
 - Create a schedule (if requested)
+- Configure the runbook to use your Hybrid Worker Group
 
-### Step 3: Configure Managed Identity Permissions
+### Step 4: Configure Managed Identity Permissions
 
 After running the setup script, you'll need to manually configure Microsoft Graph API permissions for the managed identity. The script will provide the exact commands to run.
 
-### Step 4: Test the Runbook
+### Step 5: Test the Runbook
 
 ```powershell
-# Test in test mode first
-Start-AzAutomationRunbook -AutomationAccountName "your-automation-account" -ResourceGroupName "your-resource-group" -Name "DisableInactiveUsers" -Parameters @{TestMode=$true; DaysInactive=90}
+# Test in test mode first (must specify Hybrid Worker Group)
+Start-AzAutomationRunbook -AutomationAccountName "your-automation-account" -ResourceGroupName "your-resource-group" -Name "DisableInactiveUsers" -RunOn "ADWorkers" -Parameters @{TestMode=$true; DaysInactive=90}
 ```
 
-### Step 5: Monitor and Validate
+### Step 6: Monitor and Validate
 
 1. Check the runbook execution logs in Azure Automation
 2. Review the Azure Storage Table for processed users
@@ -125,6 +139,7 @@ The following variables are automatically created by the setup script:
 | ExcludeUserProperty | AD property to check for exclusion | No |
 | ExcludeUserPropertyValue | Property value that excludes user | No |
 | DomainControllers | Comma-separated domain controllers | No |
+| HybridWorkerGroup | Hybrid Worker Group name | No |
 
 ### Azure Automation Credentials
 
@@ -145,11 +160,11 @@ The automation account's managed identity requires the following Microsoft Graph
 ### Manual Execution
 
 ```powershell
-# Run with default settings (90 days, test mode off)
-Start-AzAutomationRunbook -AutomationAccountName "aa-iam" -ResourceGroupName "rg-automation" -Name "DisableInactiveUsers"
+# Run with default settings (90 days, test mode off) - MUST specify Hybrid Worker Group
+Start-AzAutomationRunbook -AutomationAccountName "aa-iam" -ResourceGroupName "rg-automation" -Name "DisableInactiveUsers" -RunOn "ADWorkers"
 
 # Run with custom parameters
-Start-AzAutomationRunbook -AutomationAccountName "aa-iam" -ResourceGroupName "rg-automation" -Name "DisableInactiveUsers" -Parameters @{
+Start-AzAutomationRunbook -AutomationAccountName "aa-iam" -ResourceGroupName "rg-automation" -Name "DisableInactiveUsers" -RunOn "ADWorkers" -Parameters @{
     DaysInactive = 120
     NotificationDays = @(21, 14, 7, 3)
     TestMode = $true
@@ -161,8 +176,8 @@ Start-AzAutomationRunbook -AutomationAccountName "aa-iam" -ResourceGroupName "rg
 The setup script can automatically create a schedule for regular execution:
 
 ```powershell
-# Create daily schedule at 2:00 AM
-.\Setup-AzureAutomation.ps1 @AzureAutomationConfig -CreateSchedule -ScheduleFrequency "Daily" -ScheduleTime "02:00"
+# Create daily schedule at 2:00 AM on Hybrid Worker Group
+.\Setup-AzureAutomation.ps1 @AzureAutomationConfig -CreateSchedule -ScheduleFrequency "Daily" -ScheduleTime "02:00" -HybridWorkerGroup "ADWorkers"
 ```
 
 ## Monitoring and Logging

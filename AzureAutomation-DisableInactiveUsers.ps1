@@ -35,13 +35,18 @@
     Domain credentials should be stored in Azure Automation credentials with names:
     - AD-<DomainName> (e.g., AD-CONTOSO, AD-FABRIKAM)
     
+    IMPORTANT: This runbook requires a Hybrid Runbook Worker to access on-premises Active Directory.
+    - The Hybrid Worker must be domain-joined and have ActiveDirectory module installed
+    - The Hybrid Worker must have network connectivity to domain controllers
+    - The managed identity must have appropriate permissions for Microsoft Graph API
+    
     The managed identity must have appropriate permissions for:
     - Microsoft Graph API (User.ReadWrite.All, Mail.Send, AuditLog.Read.All, Directory.Read.All)
     - Azure Storage (Storage Table Data Contributor)
     - Azure Key Vault (Key Vault Secrets User) - if using Key Vault for domain credentials
 
 .EXAMPLE
-    Start-AzAutomationRunbook -AutomationAccountName "MyAutomationAccount" -ResourceGroupName "MyResourceGroup" -Name "DisableInactiveUsers" -Parameters @{DaysInactive=90; TestMode=$true}
+    Start-AzAutomationRunbook -AutomationAccountName "MyAutomationAccount" -ResourceGroupName "MyResourceGroup" -Name "DisableInactiveUsers" -RunOn "HybridWorkerGroup" -Parameters @{DaysInactive=90; TestMode=$true}
 #>
 
 param(
@@ -378,6 +383,14 @@ try {
     Write-AutomationLog "Starting Disable Inactive Users runbook..."
     Write-AutomationLog "Parameters: DaysInactive=$DaysInactive, NotificationDays=$($NotificationDays -join ','), TestMode=$TestMode"
     
+    # Check if running on Hybrid Worker
+    $runOnHybrid = $env:COMPUTERNAME -ne $null -and $env:COMPUTERNAME -ne ""
+    if ($runOnHybrid) {
+        Write-AutomationLog "Running on Hybrid Worker: $env:COMPUTERNAME"
+    } else {
+        Write-AutomationLog "WARNING: Not running on Hybrid Worker - AD connectivity may be limited" -Level "WARNING"
+    }
+    
     # Initialize Azure Storage
     $cloudTable = Initialize-AzureStorage
     
@@ -405,6 +418,24 @@ try {
         }
     }
     
+    # If no domains found and on Hybrid Worker, try to get current domain
+    if ($domains.Count -eq 0 -and $runOnHybrid) {
+        try {
+            $currentDomain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
+            if ($currentDomain -and $currentDomain -ne "WORKGROUP") {
+                $domains += $currentDomain.ToLower()
+                Write-AutomationLog "Discovered current domain: $currentDomain"
+            }
+        }
+        catch {
+            Write-AutomationLog "Failed to discover current domain: $($_.Exception.Message)" -Level "WARNING"
+        }
+    }
+    
+    if ($domains.Count -eq 0) {
+        Write-AutomationLog "No domains found to process. Ensure AD credentials are configured or Hybrid Worker is domain-joined." -Level "WARNING"
+    }
+    
     Write-AutomationLog "Processing domains: $($domains -join ', ')"
     
     # Calculate threshold dates
@@ -418,6 +449,12 @@ try {
     # Process each domain
     foreach ($domain in $domains) {
         Write-AutomationLog "Processing domain: $domain"
+        
+        # Skip AD processing if not on Hybrid Worker
+        if (-not $runOnHybrid) {
+            Write-AutomationLog "Skipping AD domain $domain - not running on Hybrid Worker" -Level "WARNING"
+            continue
+        }
         
         try {
             # Get domain credentials

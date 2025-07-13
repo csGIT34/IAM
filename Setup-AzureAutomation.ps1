@@ -95,6 +95,7 @@ param(
     [string]$ExcludeUserPropertyValue = "",
     [string]$DomainControllers = "",
     [string]$TableName = "InactiveUsers",
+    [string]$HybridWorkerGroup = "",
     
     [switch]$CreateSchedule,
     [string]$ScheduleFrequency = "Daily",
@@ -216,6 +217,10 @@ if ($DomainControllers) {
     Set-AutomationVariable -Name "DomainControllers" -Value $DomainControllers -Description "Comma-separated list of domain controllers"
 }
 
+if ($HybridWorkerGroup) {
+    Set-AutomationVariable -Name "HybridWorkerGroup" -Value $HybridWorkerGroup -Description "Hybrid Worker Group name for AD connectivity"
+}
+
 # Set domain credentials
 Write-Host "`nConfiguring domain credentials..." -ForegroundColor Green
 
@@ -323,8 +328,14 @@ if ($CreateSchedule) {
             Write-Host "Created schedule: $scheduleName" -ForegroundColor Green
             
             # Link schedule to runbook
-            Register-AzAutomationScheduledRunbook -AutomationAccountName $AutomationAccountName -ResourceGroupName $ResourceGroupName -RunbookName $runbookName -ScheduleName $scheduleName
-            Write-Host "Linked schedule to runbook" -ForegroundColor Green
+            if ($HybridWorkerGroup) {
+                Register-AzAutomationScheduledRunbook -AutomationAccountName $AutomationAccountName -ResourceGroupName $ResourceGroupName -RunbookName $runbookName -ScheduleName $scheduleName -RunOn $HybridWorkerGroup
+                Write-Host "Linked schedule to runbook with Hybrid Worker Group: $HybridWorkerGroup" -ForegroundColor Green
+            } else {
+                Register-AzAutomationScheduledRunbook -AutomationAccountName $AutomationAccountName -ResourceGroupName $ResourceGroupName -RunbookName $runbookName -ScheduleName $scheduleName
+                Write-Host "Linked schedule to runbook" -ForegroundColor Green
+                Write-Warning "No Hybrid Worker Group specified - runbook will run in Azure sandbox without AD connectivity"
+            }
         }
     }
     catch {
@@ -374,12 +385,31 @@ else {
 
 Write-Host "`n=== SETUP COMPLETED ===" -ForegroundColor Green
 Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "1. Wait for PowerShell modules to finish installing (check Automation Account > Modules)" -ForegroundColor Yellow
-Write-Host "2. Configure managed identity permissions as shown above" -ForegroundColor Yellow
-Write-Host "3. Test the runbook with TestMode=`$true" -ForegroundColor Yellow
-Write-Host "4. Review the logs in Azure Storage Table" -ForegroundColor Yellow
-Write-Host "5. Set TestMode=`$false in production" -ForegroundColor Yellow
+Write-Host "1. Set up Hybrid Runbook Worker for Active Directory connectivity" -ForegroundColor Yellow
+Write-Host "2. Wait for PowerShell modules to finish installing (check Automation Account > Modules)" -ForegroundColor Yellow
+Write-Host "3. Configure managed identity permissions as shown above" -ForegroundColor Yellow
+Write-Host "4. Test the runbook with TestMode=`$true on the Hybrid Worker" -ForegroundColor Yellow
+Write-Host "5. Review the logs in Azure Storage Table" -ForegroundColor Yellow
+Write-Host "6. Set TestMode=`$false in production" -ForegroundColor Yellow
+
+# Hybrid Worker setup instructions
+Write-Host "`n=== HYBRID WORKER SETUP ===" -ForegroundColor Green
+Write-Host "To set up a Hybrid Runbook Worker for Active Directory connectivity:" -ForegroundColor Yellow
+Write-Host "1. Install Azure Connected Machine agent on a domain-joined server" -ForegroundColor Yellow
+Write-Host "2. Install the Hybrid Runbook Worker extension" -ForegroundColor Yellow
+Write-Host "3. Ensure the server has:" -ForegroundColor Yellow
+Write-Host "   - PowerShell 5.1 or later" -ForegroundColor Yellow
+Write-Host "   - ActiveDirectory PowerShell module" -ForegroundColor Yellow
+Write-Host "   - Network connectivity to domain controllers" -ForegroundColor Yellow
+Write-Host "   - Network connectivity to Azure (port 443)" -ForegroundColor Yellow
+Write-Host "4. Create a Hybrid Worker Group and add the worker" -ForegroundColor Yellow
+Write-Host "5. Update the HybridWorkerGroup variable in Automation Account" -ForegroundColor Yellow
 
 # Test runbook execution
 Write-Host "`nTo test the runbook, run:" -ForegroundColor Cyan
-Write-Host "Start-AzAutomationRunbook -AutomationAccountName '$AutomationAccountName' -ResourceGroupName '$ResourceGroupName' -Name '$runbookName' -Parameters @{TestMode=`$true; DaysInactive=90}" -ForegroundColor Gray
+if ($HybridWorkerGroup) {
+    Write-Host "Start-AzAutomationRunbook -AutomationAccountName '$AutomationAccountName' -ResourceGroupName '$ResourceGroupName' -Name '$runbookName' -RunOn '$HybridWorkerGroup' -Parameters @{TestMode=`$true; DaysInactive=90}" -ForegroundColor Gray
+} else {
+    Write-Host "Start-AzAutomationRunbook -AutomationAccountName '$AutomationAccountName' -ResourceGroupName '$ResourceGroupName' -Name '$runbookName' -Parameters @{TestMode=`$true; DaysInactive=90}" -ForegroundColor Gray
+    Write-Host "WARNING: No Hybrid Worker Group specified - add -RunOn parameter for AD connectivity" -ForegroundColor Red
+}

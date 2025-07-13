@@ -53,6 +53,9 @@ $AzureAutomationConfig = @{
     # Domain controllers (optional - if not specified, auto-discovery will be used)
     DomainControllers = "dc1.contoso.com,dc2.contoso.com,dc1.fabrikam.com,dc2.fabrikam.com"
     
+    # Hybrid Worker Group for Active Directory connectivity (REQUIRED for AD operations)
+    HybridWorkerGroup = "ADWorkers"                           # Replace with your Hybrid Worker Group name
+    
     # Scheduling
     CreateSchedule = $true                                    # Set to $false to skip schedule creation
     ScheduleFrequency = "Daily"                               # Daily, Weekly, or Monthly
@@ -79,6 +82,7 @@ Write-Host "`nAlternative command with individual parameters:" -ForegroundColor 
     -ExcludeUserProperty "$($AzureAutomationConfig.ExcludeUserProperty)" `
     -ExcludeUserPropertyValue "$($AzureAutomationConfig.ExcludeUserPropertyValue)" `
     -DomainControllers "$($AzureAutomationConfig.DomainControllers)" `
+    -HybridWorkerGroup "$($AzureAutomationConfig.HybridWorkerGroup)" `
     -CreateSchedule `
     -ScheduleFrequency "$($AzureAutomationConfig.ScheduleFrequency)" `
     -ScheduleTime "$($AzureAutomationConfig.ScheduleTime)"
@@ -92,6 +96,7 @@ Write-Host "☐ Azure Automation Account created" -ForegroundColor Yellow
 Write-Host "☐ Azure Storage Account created" -ForegroundColor Yellow
 Write-Host "☐ Microsoft 365 tenant with admin access" -ForegroundColor Yellow
 Write-Host "☐ Domain service accounts with appropriate permissions" -ForegroundColor Yellow
+Write-Host "☐ Hybrid Runbook Worker configured and domain-joined" -ForegroundColor Yellow
 Write-Host "☐ PowerShell modules installed (Az.Accounts, Az.Automation, Az.Resources, Az.Storage)" -ForegroundColor Yellow
 
 # Required permissions
@@ -109,6 +114,12 @@ Write-Host "- Domain service accounts need:" -ForegroundColor Yellow
 Write-Host "  * Read permissions on user objects" -ForegroundColor Yellow
 Write-Host "  * Write permissions to disable user accounts" -ForegroundColor Yellow
 Write-Host "  * Read permissions on group memberships" -ForegroundColor Yellow
+Write-Host "" -ForegroundColor Yellow
+Write-Host "Hybrid Runbook Worker:" -ForegroundColor Yellow
+Write-Host "- Server must be domain-joined" -ForegroundColor Yellow
+Write-Host "- ActiveDirectory PowerShell module installed" -ForegroundColor Yellow
+Write-Host "- Network connectivity to domain controllers" -ForegroundColor Yellow
+Write-Host "- Network connectivity to Azure (port 443)" -ForegroundColor Yellow
 
 # Testing recommendations
 Write-Host "`n=== TESTING RECOMMENDATIONS ===" -ForegroundColor Cyan
