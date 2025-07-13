@@ -264,6 +264,15 @@ If issues arise during migration:
 - Remove on-premises files after successful migration
 - Clean up old scheduled tasks
 - Archive old log files
+- **Set up PowerBI dashboard** for better data visualization
+
+### 5. PowerBI Dashboard Setup
+- Create PowerBI dashboard for enhanced monitoring
+- Configure automated data refresh
+- Set up alerts and notifications
+- Train users on dashboard usage
+
+See `PowerBI-Dashboard-Setup.md` for detailed instructions.
 
 ## Common Migration Issues
 

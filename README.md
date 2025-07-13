@@ -8,6 +8,7 @@
 - **Main Files**: `AzureAutomation-DisableInactiveUsers.ps1`, `Setup-AzureAutomation.ps1`
 - **Documentation**: See `README-AzureAutomation.md`
 - **Benefits**: Managed identity authentication, cloud-native, centralized management
+- **PowerBI Dashboard**: Comprehensive data visualization and reporting
 - **Migration Guide**: See `Migration-Guide.md` for transitioning from on-premises
 
 ### 📋 On-Premises Version (Legacy)

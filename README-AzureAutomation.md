@@ -25,6 +25,8 @@ This repository contains an Azure Automation solution for automatically disablin
 2. **Setup-AzureAutomation.ps1** - Setup script for configuring Azure Automation
 3. **Setup-HybridWorker.ps1** - Setup script for configuring Hybrid Runbook Worker
 4. **AzureAutomation-Config.ps1** - Configuration template and examples
+5. **PowerBI-Dashboard-Setup.md** - Guide for creating PowerBI dashboards
+6. **PowerBI-Template-Guide.md** - PowerBI template documentation
 
 ### Legacy Files (for reference)
 - **Disable-InactiveUsers.ps1** - Original on-premises version
@@ -190,6 +192,29 @@ All processed users are logged to an Azure Storage Table with the following info
 - Last logon/sign-in date
 - Action taken (Disabled, Notified, etc.)
 - Processing timestamp
+
+### PowerBI Dashboard
+
+Create comprehensive dashboards to visualize the inactive user data:
+
+1. **Setup Dashboard**:
+   ```powershell
+   # Follow the PowerBI setup guide
+   # See PowerBI-Dashboard-Setup.md for detailed instructions
+   ```
+
+2. **Key Visualizations**:
+   - User activity trends over time
+   - Domain and account type analysis
+   - Risk assessment and compliance metrics
+   - Recent actions and audit trails
+
+3. **Automated Refresh**:
+   - Configure scheduled data refresh
+   - Set up alerts for key metrics
+   - Monitor dashboard performance
+
+See `PowerBI-Dashboard-Setup.md` for complete setup instructions and `PowerBI-Template-Guide.md` for using the pre-built template.
 
 ### Azure Automation Logs
 

@@ -161,3 +161,20 @@ Write-Host "3. Review disabled accounts monthly" -ForegroundColor Yellow
 Write-Host "4. Update exclusion lists as organizational structure changes" -ForegroundColor Yellow
 Write-Host "5. Test email delivery periodically" -ForegroundColor Yellow
 Write-Host "6. Review and update notification timing as needed" -ForegroundColor Yellow
+Write-Host "7. Set up PowerBI dashboard for data visualization" -ForegroundColor Yellow
+
+# PowerBI Dashboard Setup
+Write-Host "`n=== POWERBI DASHBOARD SETUP ===" -ForegroundColor Cyan
+Write-Host "After the automation is running, consider setting up a PowerBI dashboard:" -ForegroundColor Yellow
+Write-Host "1. Follow the guide in PowerBI-Dashboard-Setup.md" -ForegroundColor Yellow
+Write-Host "2. Use the pre-built template in PowerBI-Template-Guide.md" -ForegroundColor Yellow
+Write-Host "3. Configure automated data refresh" -ForegroundColor Yellow
+Write-Host "4. Set up alerts for key metrics" -ForegroundColor Yellow
+Write-Host "5. Share dashboard with relevant stakeholders" -ForegroundColor Yellow
+Write-Host "" -ForegroundColor Yellow
+Write-Host "PowerBI Dashboard Benefits:" -ForegroundColor Green
+Write-Host "- Visual trends and analytics" -ForegroundColor Green
+Write-Host "- Real-time monitoring capabilities" -ForegroundColor Green
+Write-Host "- Compliance reporting" -ForegroundColor Green
+Write-Host "- Executive summary views" -ForegroundColor Green
+Write-Host "- Automated alerts and notifications" -ForegroundColor Green
