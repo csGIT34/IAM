@@ -2,6 +2,63 @@
 
 > **⚠️ IMPORTANT:** This repository now includes both on-premises and Azure Automation versions. For new deployments, we recommend using the **Azure Automation version** for better security, reliability, and management.
 
+## 📚 Documentation Index
+
+### 🚀 Getting Started
+- [**README.md**](README.md) - This file, main overview and on-premises setup
+- [**README-AzureAutomation.md**](README-AzureAutomation.md) - Azure Automation version documentation
+- [**Migration-Guide.md**](Migration-Guide.md) - Migration from on-premises to Azure Automation
+
+### 📊 PowerBI Dashboard
+- [**PowerBI-Dashboard-Setup.md**](PowerBI-Dashboard-Setup.md) - Dashboard setup and configuration
+- [**PowerBI-Template-Guide.md**](PowerBI-Template-Guide.md) - Pre-built dashboard templates
+- [**PowerBI-DataConnector.md**](PowerBI-DataConnector.md) - Data connection setup
+
+### 🏗️ Architecture & Design
+- [**Architecture-Diagrams.md**](Architecture-Diagrams.md) - Comprehensive architecture diagrams
+
+### 🧪 Testing & Quality
+- [**README-Testing.md**](README-Testing.md) - Comprehensive testing guide
+- [**Test-Runner.ps1**](Test-Runner.ps1) - Test automation framework
+- [**Install-TestDependencies.ps1**](Install-TestDependencies.ps1) - Test environment setup
+
+### 🔧 Setup & Configuration Scripts
+- [**Setup-AzureAutomation.ps1**](Setup-AzureAutomation.ps1) - Azure Automation setup script
+- [**Setup-HybridWorker.ps1**](Setup-HybridWorker.ps1) - Hybrid Worker configuration
+- [**Setup-ScheduledTask.ps1**](Setup-ScheduledTask.ps1) - On-premises task scheduling
+- [**Setup-KeyVaultCredentials.ps1**](Setup-KeyVaultCredentials.ps1) - Key Vault credential setup
+- [**Setup-GraphAuth.ps1**](Setup-GraphAuth.ps1) - Graph API authentication setup
+
+### 📋 Configuration Templates
+- [**Config-DisableInactiveUsers.ps1**](Config-DisableInactiveUsers.ps1) - On-premises configuration
+- [**AzureAutomation-Config.ps1**](AzureAutomation-Config.ps1) - Azure Automation configuration
+
+### 🎯 Main Scripts
+- [**AzureAutomation-DisableInactiveUsers.ps1**](AzureAutomation-DisableInactiveUsers.ps1) - Azure Automation runbook ⭐
+- [**Disable-InactiveUsers.ps1**](Disable-InactiveUsers.ps1) - On-premises PowerShell script
+
+### 🔄 Utilities
+- [**Install-Prerequisites.ps1**](Install-Prerequisites.ps1) - Module installation for on-premises
+
+### 🧪 Testing Suite
+- [**Tests/**](Tests/) - Complete Pester test suite
+  - [**AzureAutomation-DisableInactiveUsers.Tests.ps1**](Tests/AzureAutomation-DisableInactiveUsers.Tests.ps1) - Azure Automation tests
+  - [**Setup-AzureAutomation.Tests.ps1**](Tests/Setup-AzureAutomation.Tests.ps1) - Setup script tests
+  - [**Setup-HybridWorker.Tests.ps1**](Tests/Setup-HybridWorker.Tests.ps1) - Hybrid Worker tests
+  - [**Legacy-Scripts.Tests.ps1**](Tests/Legacy-Scripts.Tests.ps1) - On-premises script tests
+
+## 🗺️ Quick Navigation
+
+| **New to IAM?** | **Migrating?** | **PowerBI Analytics?** | **Testing?** |
+|---|---|---|---|
+| Start with [README-AzureAutomation.md](README-AzureAutomation.md) | Follow [Migration-Guide.md](Migration-Guide.md) | See [PowerBI-Dashboard-Setup.md](PowerBI-Dashboard-Setup.md) | Check [README-Testing.md](README-Testing.md) |
+
+| **Architecture?** | **Troubleshooting?** | **Configuration?** | **Development?** |
+|---|---|---|---|
+| View [Architecture-Diagrams.md](Architecture-Diagrams.md) | Check respective README files | See configuration templates | Use [Test-Runner.ps1](Test-Runner.ps1) |
+
+---
+
 ## Versions Available
 
 ### 🆕 Azure Automation Version (Recommended)
