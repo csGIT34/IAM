@@ -16,6 +16,49 @@
 - **Documentation**: See below
 - **Use Case**: For environments requiring on-premises execution
 
+## Architecture Overview
+
+The solution supports both on-premises and Azure Automation deployments:
+
+### Azure Automation Architecture
+```mermaid
+graph TB
+    subgraph "Azure Cloud"
+        AA[Azure Automation]
+        MI[Managed Identity]
+        ST[Storage Table]
+        PBI[PowerBI Dashboard]
+    end
+    
+    subgraph "On-Premises"
+        HW[Hybrid Worker]
+        AD[Active Directory]
+    end
+    
+    subgraph "Microsoft 365"
+        MG[Microsoft Graph]
+        ENTRA[Entra ID]
+    end
+    
+    AA --> MI
+    AA --> HW
+    HW --> AD
+    MI --> MG
+    MG --> ENTRA
+    AA --> ST
+    ST --> PBI
+    
+    classDef azure fill:#0078d4,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef onprem fill:#00bcf2,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef microsoft fill:#5c2d91,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    
+    class AA,MI,ST,PBI azure
+    class HW,AD onprem
+    class MG,ENTRA microsoft
+```
+
+For detailed architecture diagrams, see `Architecture-Diagrams.md`.
+
 ---
 
 ## Original On-Premises Documentation

@@ -2,6 +2,67 @@
 
 This repository contains an Azure Automation solution for automatically disabling inactive user accounts in both Active Directory and Entra ID (Azure AD). The solution has been specifically designed to run in Azure Automation using managed identity authentication.
 
+## Architecture Overview
+
+The Azure Automation solution uses a hybrid architecture combining cloud and on-premises components:
+
+```mermaid
+graph TB
+    subgraph "Azure Cloud"
+        subgraph "Azure Automation"
+            AA[Automation Account]
+            RB[Runbook]
+            MI[Managed Identity]
+            VARS[Variables]
+            CREDS[Credentials]
+        end
+        
+        subgraph "Data & Analytics"
+            ST[Storage Table]
+            PBI[PowerBI Dashboard]
+        end
+        
+        subgraph "Microsoft Graph"
+            MG[Graph API]
+            ENTRA[Entra ID Users]
+        end
+    end
+    
+    subgraph "On-Premises"
+        HW[Hybrid Worker]
+        AD[Active Directory]
+    end
+    
+    AA --> RB
+    AA --> MI
+    RB --> HW
+    RB --> VARS
+    RB --> CREDS
+    HW --> AD
+    MI --> MG
+    MG --> ENTRA
+    RB --> ST
+    ST --> PBI
+    
+    classDef azure fill:#0078d4,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef onprem fill:#00bcf2,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef data fill:#107c10,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    
+    class AA,RB,MI,VARS,CREDS,MG,ENTRA azure
+    class HW,AD onprem
+    class ST,PBI data
+```
+
+### Key Components
+
+- **Azure Automation Account**: Centralized management and execution
+- **Hybrid Runbook Worker**: Secure bridge to on-premises Active Directory
+- **Managed Identity**: Secure authentication to Microsoft Graph
+- **Storage Table**: Centralized logging and audit trail
+- **PowerBI Dashboard**: Real-time monitoring and reporting
+
+For detailed architecture diagrams, see `Architecture-Diagrams.md`.
+
 ## Features
 
 - **Azure Automation Native**: Designed specifically for Azure Automation with managed identity authentication

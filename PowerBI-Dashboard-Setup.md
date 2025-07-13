@@ -11,6 +11,48 @@ The PowerBI dashboard will provide:
 - **Compliance Reporting**: Generate reports for compliance audits
 - **Real-time Monitoring**: Near real-time view of processing results
 
+### Data Flow Architecture
+
+```mermaid
+graph LR
+    subgraph "Data Sources"
+        AA[Azure Automation]
+        ST[Storage Table]
+        AD[Active Directory]
+    end
+    
+    subgraph "PowerBI"
+        DS[Dataset]
+        DM[Data Model]
+        DASH[Dashboard]
+        ALERTS[Alerts]
+    end
+    
+    subgraph "Consumption"
+        USERS[Business Users]
+        REPORTS[Reports]
+        MOBILE[Mobile Apps]
+    end
+    
+    AA --> ST
+    AD --> ST
+    ST --> DS
+    DS --> DM
+    DM --> DASH
+    DASH --> ALERTS
+    DASH --> USERS
+    DASH --> REPORTS
+    DASH --> MOBILE
+    
+    classDef data fill:#004578,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef powerbi fill:#f2c811,stroke:#000000,stroke-width:2px,color:#000000
+    classDef consumption fill:#107c10,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    
+    class AA,ST,AD data
+    class DS,DM,DASH,ALERTS powerbi
+    class USERS,REPORTS,MOBILE consumption
+```
+
 ## Prerequisites
 
 1. **PowerBI Pro License**: Required for sharing dashboards

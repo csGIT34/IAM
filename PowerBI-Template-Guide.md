@@ -1,5 +1,9 @@
 # PowerBI Dashboard Template for Inactive Users
 
+## Solution Architecture
+
+For detailed architecture diagrams showing how this PowerBI dashboard integrates with the Azure Automation solution, see [Architecture-Diagrams.md](Architecture-Diagrams.md#powerbi-dashboard-architecture).
+
 This template provides a pre-configured PowerBI dashboard for visualizing inactive user data from Azure Storage Table.
 
 ## Template Contents

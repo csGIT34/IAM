@@ -12,6 +12,46 @@ The Azure Automation version provides several advantages over the on-premises ve
 - **Better Monitoring**: Integrated with Azure monitoring and logging
 - **Automatic Updates**: PowerShell modules updated automatically
 
+### Architecture Comparison
+
+#### On-Premises Architecture
+```mermaid
+graph LR
+    SERVER[On-Premises Server] --> AD[Active Directory]
+    SERVER --> AZURE[Azure Services]
+    SERVER --> LOGS[Local Logs]
+    AZURE --> STORAGE[Storage Table]
+    AZURE --> GRAPH[Microsoft Graph]
+```
+
+#### Azure Automation Architecture
+```mermaid
+graph TB
+    subgraph "Azure Cloud"
+        AA[Azure Automation]
+        MI[Managed Identity]
+        ST[Storage Table]
+    end
+    
+    subgraph "On-Premises"
+        HW[Hybrid Worker]
+        AD[Active Directory]
+    end
+    
+    AA --> MI
+    AA --> HW
+    HW --> AD
+    MI --> ST
+    
+    classDef azure fill:#0078d4,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef onprem fill:#00bcf2,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    
+    class AA,MI,ST azure
+    class HW,AD onprem
+```
+
+The Azure Automation architecture provides better security, scalability, and management capabilities.
+
 ## Pre-Migration Checklist
 
 ### 1. Document Current Configuration
