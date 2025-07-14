@@ -1,63 +1,246 @@
-# Disable-InactiveUsers PowerShell Script Suite
+# IAM (Identity and Access Management) Solutions
 
-> **⚠️ IMPORTANT:** This repository now includes both on-premises and Azure Automation versions. For new deployments, we recommend using the **Azure Automation version** for better security, reliability, and management.
+This repository contains comprehensive Identity and Access Management solutions for Azure and Microsoft 365 environments.
 
-## 📚 Documentation Index
+## 🚀 Solutions Overview
 
-### 🚀 Getting Started
-- [**README.md**](README.md) - This file, main overview and on-premises setup
-- [**README-AzureAutomation.md**](README-AzureAutomation.md) - Azure Automation version documentation
-- [**Migration-Guide.md**](Migration-Guide.md) - Migration from on-premises to Azure Automation
+### 1. [Inactivity Management](InactivityManagement/) 
+**Automated management of inactive user accounts**
+- Identifies and disables inactive users in Active Directory and Entra ID
+- Configurable notification system with email warnings
+- Supports both on-premises and Azure Automation deployments
+- Comprehensive PowerBI dashboards for monitoring
+- **Status**: ✅ Complete and Production-Ready
 
-### 📊 PowerBI Dashboard
-- [**PowerBI-Dashboard-Setup.md**](PowerBI-Dashboard-Setup.md) - Dashboard setup and configuration
-- [**PowerBI-Template-Guide.md**](PowerBI-Template-Guide.md) - Pre-built dashboard templates
-- [**PowerBI-DataConnector.md**](PowerBI-DataConnector.md) - Data connection setup
+### 2. [Role Assignment Monitoring](RoleAssignmentMonitoring/)
+**Monitor and govern Azure and Entra ID role assignments**
+- Real-time monitoring of Azure RBAC and Entra ID role assignments
+- Privileged Identity Management (PIM) tracking
+- Compliance reporting and anomaly detection
+- Automated remediation capabilities
+- **Status**: 🚧 In Development
 
-### 🏗️ Architecture & Design
-- [**Architecture-Diagrams.md**](Architecture-Diagrams.md) - Comprehensive architecture diagrams
+## � Repository Structure
 
-### 🧪 Testing & Quality
-- [**README-Testing.md**](README-Testing.md) - Comprehensive testing guide
-- [**Test-Runner.ps1**](Test-Runner.ps1) - Test automation framework
-- [**Install-TestDependencies.ps1**](Install-TestDependencies.ps1) - Test environment setup
+```
+IAM/
+├── InactivityManagement/          # Inactive user management solution
+│   ├── Scripts/                   # PowerShell scripts
+│   ├── Tests/                     # Comprehensive test suite
+│   ├── Documentation/             # Solution documentation
+│   └── README.md                  # Solution overview
+├── RoleAssignmentMonitoring/      # Role assignment monitoring solution
+│   ├── Scripts/                   # PowerShell scripts
+│   ├── Tests/                     # Test suite
+│   ├── Documentation/             # Solution documentation
+│   └── README.md                  # Solution overview
+└── README.md                      # This file
+```
 
-### 🔧 Setup & Configuration Scripts
-- [**Setup-AzureAutomation.ps1**](Setup-AzureAutomation.ps1) - Azure Automation setup script
-- [**Setup-HybridWorker.ps1**](Setup-HybridWorker.ps1) - Hybrid Worker configuration
-- [**Setup-ScheduledTask.ps1**](Setup-ScheduledTask.ps1) - On-premises task scheduling
-- [**Setup-KeyVaultCredentials.ps1**](Setup-KeyVaultCredentials.ps1) - Key Vault credential setup
-- [**Setup-GraphAuth.ps1**](Setup-GraphAuth.ps1) - Graph API authentication setup
+## 🎯 Quick Start
 
-### 📋 Configuration Templates
-- [**Config-DisableInactiveUsers.ps1**](Config-DisableInactiveUsers.ps1) - On-premises configuration
-- [**AzureAutomation-Config.ps1**](AzureAutomation-Config.ps1) - Azure Automation configuration
+### For Inactivity Management
+```powershell
+cd InactivityManagement
+.\Install-Prerequisites.ps1
+.\Setup-AzureAutomation.ps1
+```
 
-### 🎯 Main Scripts
-- [**AzureAutomation-DisableInactiveUsers.ps1**](AzureAutomation-DisableInactiveUsers.ps1) - Azure Automation runbook ⭐
-- [**Disable-InactiveUsers.ps1**](Disable-InactiveUsers.ps1) - On-premises PowerShell script
+### For Role Assignment Monitoring
+```powershell
+cd RoleAssignmentMonitoring
+.\Install-Prerequisites.ps1
+.\Setup-AzureAutomation.ps1
+```
 
-### 🔄 Utilities
-- [**Install-Prerequisites.ps1**](Install-Prerequisites.ps1) - Module installation for on-premises
+## 🏗️ Architecture
 
-### 🧪 Testing Suite
-- [**Tests/**](Tests/) - Complete Pester test suite
-  - [**AzureAutomation-DisableInactiveUsers.Tests.ps1**](Tests/AzureAutomation-DisableInactiveUsers.Tests.ps1) - Azure Automation tests
-  - [**Setup-AzureAutomation.Tests.ps1**](Tests/Setup-AzureAutomation.Tests.ps1) - Setup script tests
-  - [**Setup-HybridWorker.Tests.ps1**](Tests/Setup-HybridWorker.Tests.ps1) - Hybrid Worker tests
-  - [**Legacy-Scripts.Tests.ps1**](Tests/Legacy-Scripts.Tests.ps1) - On-premises script tests
+Both solutions follow a similar cloud-native architecture:
 
-## 🗺️ Quick Navigation
+```mermaid
+graph TB
+    subgraph "Azure Cloud"
+        AA[Azure Automation]
+        MI[Managed Identity]
+        ST[Storage Table]
+        LA[Log Analytics]
+        PBI[PowerBI Dashboard]
+    end
+    
+    subgraph "On-Premises"
+        HW[Hybrid Worker]
+        AD[Active Directory]
+    end
+    
+    subgraph "Microsoft 365"
+        MG[Microsoft Graph]
+        ENTRA[Entra ID]
+        PIM[Privileged Identity Management]
+    end
+    
+    AA --> MI
+    AA --> HW
+    HW --> AD
+    MI --> MG
+    MG --> ENTRA
+    MG --> PIM
+    AA --> ST
+    AA --> LA
+    ST --> PBI
+    LA --> PBI
+    
+    classDef azure fill:#0078d4,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef onprem fill:#00bcf2,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    classDef microsoft fill:#5c2d91,stroke:#ffffff,stroke-width:2px,color:#ffffff
+    
+    class AA,MI,ST,LA,PBI azure
+    class HW,AD onprem
+    class MG,ENTRA,PIM microsoft
+```
 
-| **New to IAM?** | **Migrating?** | **PowerBI Analytics?** | **Testing?** |
-|---|---|---|---|
-| Start with [README-AzureAutomation.md](README-AzureAutomation.md) | Follow [Migration-Guide.md](Migration-Guide.md) | See [PowerBI-Dashboard-Setup.md](PowerBI-Dashboard-Setup.md) | Check [README-Testing.md](README-Testing.md) |
+## 🔧 Common Features
 
-| **Architecture?** | **Troubleshooting?** | **Configuration?** | **Development?** |
-|---|---|---|---|
-| View [Architecture-Diagrams.md](Architecture-Diagrams.md) | Check respective README files | See configuration templates | Use [Test-Runner.ps1](Test-Runner.ps1) |
+### Security
+- **Managed Identity Authentication** - No stored credentials
+- **Least Privilege Access** - Minimal required permissions
+- **Secure Storage** - Encrypted data at rest and in transit
+- **Comprehensive Audit Logging** - Full activity tracking
+
+### Monitoring & Reporting
+- **PowerBI Dashboards** - Rich visualization and analytics
+- **Real-time Alerts** - Configurable notification system
+- **Compliance Reports** - Support for various frameworks
+- **Historical Tracking** - Long-term trend analysis
+
+### Deployment Options
+- **Azure Automation** - Cloud-native, recommended approach
+- **On-Premises** - Traditional PowerShell execution
+- **Hybrid** - Combined cloud and on-premises deployment
+
+### Quality Assurance
+- **Comprehensive Testing** - Pester test suites for all components
+- **CI/CD Ready** - GitHub Actions and Azure DevOps integration
+- **Documentation** - Complete setup and troubleshooting guides
+
+## 📊 Solution Comparison
+
+| Feature | Inactivity Management | Role Assignment Monitoring |
+|---------|----------------------|---------------------------|
+| **Purpose** | Manage inactive users | Monitor role assignments |
+| **Scope** | AD + Entra ID Users | Azure RBAC + Entra ID Roles |
+| **Actions** | Disable accounts | Alert + Remediate |
+| **Reporting** | User activity analytics | Role assignment analytics |
+| **Compliance** | Account lifecycle | Privileged access governance |
+| **Status** | ✅ Production Ready | 🚧 In Development |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Azure subscription with appropriate permissions
+- PowerShell 5.1 or later
+- Azure Automation Account (recommended)
+- Microsoft Graph API permissions
+
+### Installation Steps
+1. **Choose a solution** - Navigate to the appropriate folder
+2. **Install prerequisites** - Run the installation script
+3. **Configure settings** - Edit configuration files
+4. **Deploy to Azure** - Run setup scripts
+5. **Test and validate** - Use the test suite
+6. **Set up monitoring** - Configure PowerBI dashboards
+
+## 📚 Documentation
+
+### Inactivity Management
+- [Solution Overview](InactivityManagement/README.md)
+- [Azure Automation Setup](InactivityManagement/README-AzureAutomation.md)
+- [Migration Guide](InactivityManagement/Migration-Guide.md)
+- [Testing Guide](InactivityManagement/README-Testing.md)
+- [PowerBI Dashboard Setup](InactivityManagement/PowerBI-Dashboard-Setup.md)
+
+### Role Assignment Monitoring
+- [Solution Overview](RoleAssignmentMonitoring/README.md)
+- [Architecture Guide](RoleAssignmentMonitoring/Documentation/Architecture-Guide.md)
+- [Configuration Guide](RoleAssignmentMonitoring/Documentation/Configuration-Guide.md)
+- [API Reference](RoleAssignmentMonitoring/Documentation/API-Reference.md)
+
+## 🧪 Testing
+
+Both solutions include comprehensive test suites:
+
+```powershell
+# Test Inactivity Management
+cd InactivityManagement
+.\Install-TestDependencies.ps1
+.\Test-Runner.ps1
+Invoke-AllTests -Coverage
+
+# Test Role Assignment Monitoring
+cd RoleAssignmentMonitoring
+.\Install-TestDependencies.ps1
+.\Test-Runner.ps1
+Invoke-AllTests -Coverage
+```
+
+## 🤝 Contributing
+
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Follow the coding standards** and add tests
+4. **Update documentation** as needed
+5. **Commit changes** (`git commit -m 'Add amazing feature'`)
+6. **Push to branch** (`git push origin feature/amazing-feature`)
+7. **Open a Pull Request**
+
+### Development Guidelines
+- Follow PowerShell best practices
+- Add comprehensive tests for new features
+- Update documentation for any changes
+- Ensure security best practices are followed
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+For issues and questions:
+- **Check the documentation** in the respective solution folders
+- **Review the troubleshooting guides**
+- **Use the test suites** to validate configuration
+- **Check Azure Automation logs** for runtime errors
+- **Open an issue** in this repository
+
+## 🗺️ Roadmap
+
+### Short Term (Next 3 months)
+- [ ] Complete Role Assignment Monitoring solution
+- [ ] Add ARM templates for automated deployment
+- [ ] Enhance PowerBI dashboards with more visualizations
+- [ ] Add support for additional compliance frameworks
+
+### Medium Term (3-6 months)
+- [ ] Add Machine Learning for anomaly detection
+- [ ] Implement automated remediation workflows
+- [ ] Add support for multi-tenant scenarios
+- [ ] Enhance monitoring and alerting capabilities
+
+### Long Term (6+ months)
+- [ ] Add integration with Security Information and Event Management (SIEM) systems
+- [ ] Implement advanced analytics and reporting
+- [ ] Add support for additional identity providers
+- [ ] Develop REST API for integration with other systems
+
+## 🏆 Acknowledgments
+
+- Microsoft Graph API team for excellent documentation
+- Azure Automation team for the powerful automation platform
+- PowerShell community for best practices and guidance
+- Contributors and users who provide feedback and improvements
 
 ---
+
+**🎯 Ready to secure your identity infrastructure? Start with the [Inactivity Management](InactivityManagement/) solution today!**
 
 ## Versions Available
 
