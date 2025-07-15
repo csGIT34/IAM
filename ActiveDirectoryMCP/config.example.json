@@ -1,0 +1,90 @@
+{
+  "activeDirectory": {
+    "domain": "contoso.com",
+    "server": "dc01.contoso.com",
+    "port": 389,
+    "useSSL": true,
+    "baseDN": "DC=contoso,DC=com",
+    "searchSizeLimit": 1000,
+    "searchTimeLimit": 30
+  },
+  "authentication": {
+    "useServiceAccount": true,
+    "serviceAccountUsername": "svc-mcp-ad",
+    "serviceAccountPassword": "REPLACE_WITH_ACTUAL_PASSWORD",
+    "useIntegratedAuth": false,
+    "credentialSource": "config"
+  },
+  "security": {
+    "enableAuditLogging": true,
+    "auditLogPath": "./logs/audit.log",
+    "requireSecureConnection": true,
+    "allowedOperations": [
+      "query",
+      "create",
+      "update",
+      "disable",
+      "enable",
+      "report"
+    ],
+    "restrictedOUs": [
+      "CN=Domain Controllers,DC=contoso,DC=com",
+      "CN=Enterprise Admins,CN=Users,DC=contoso,DC=com"
+    ],
+    "allowedAttributes": [
+      "displayName",
+      "mail",
+      "department",
+      "title",
+      "manager",
+      "telephoneNumber",
+      "mobile",
+      "company",
+      "description",
+      "memberOf",
+      "directReports",
+      "lastLogon",
+      "userAccountControl",
+      "whenCreated",
+      "whenChanged"
+    ]
+  },
+  "performance": {
+    "enableCaching": true,
+    "cacheExpiryMinutes": 15,
+    "maxConcurrentOperations": 10,
+    "queryTimeout": 30000,
+    "connectionPoolSize": 5,
+    "retryAttempts": 3,
+    "retryDelay": 1000
+  },
+  "mcp": {
+    "serverName": "active-directory-mcp",
+    "serverVersion": "1.0.0",
+    "port": 3000,
+    "enableMetrics": true,
+    "enableHealthCheck": true,
+    "healthCheckInterval": 60000,
+    "maxRequestSize": "10mb",
+    "requestTimeout": 30000
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "logFile": "./logs/server.log",
+    "maxFiles": 10,
+    "maxSize": "50m",
+    "enableConsole": true,
+    "enableFile": true
+  },
+  "features": {
+    "enableUserOperations": true,
+    "enableGroupOperations": true,
+    "enableComputerOperations": true,
+    "enableOUOperations": true,
+    "enablePasswordReset": true,
+    "enableBulkOperations": true,
+    "enableReporting": true,
+    "enableMetrics": true
+  }
+}

@@ -20,6 +20,14 @@ This repository contains comprehensive Identity and Access Management solutions 
 - Automated remediation capabilities
 - **Status**: 🚧 In Development
 
+### 3. [Active Directory MCP Server](ActiveDirectoryMCP/)
+**Model Context Protocol server for Active Directory operations**
+- Standardized AI assistant interface for Active Directory management
+- Comprehensive directory queries and operations
+- Security-focused design with audit logging
+- Real-time directory health monitoring
+- **Status**: 🚧 In Development
+
 ## � Repository Structure
 
 ```
@@ -33,6 +41,12 @@ IAM/
 │   ├── Scripts/                   # PowerShell scripts
 │   ├── Tests/                     # Test suite
 │   ├── Documentation/             # Solution documentation
+│   └── README.md                  # Solution overview
+├── ActiveDirectoryMCP/            # Active Directory MCP server
+│   ├── src/                       # TypeScript source code
+│   ├── scripts/                   # PowerShell setup scripts
+│   ├── tests/                     # Test suite
+│   ├── config/                    # Configuration files
 │   └── README.md                  # Solution overview
 └── README.md                      # This file
 ```
@@ -48,6 +62,19 @@ cd InactivityManagement
 
 ### For Role Assignment Monitoring
 ```powershell
+cd RoleAssignmentMonitoring
+.\Setup-RoleMonitoring.ps1
+.\Setup-Permissions.ps1
+```
+
+### For Active Directory MCP Server
+```bash
+cd ActiveDirectoryMCP
+npm install
+.\Install-Prerequisites.ps1
+npm run build
+npm start
+```
 cd RoleAssignmentMonitoring
 .\Install-Prerequisites.ps1
 .\Setup-AzureAutomation.ps1
