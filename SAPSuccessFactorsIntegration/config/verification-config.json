@@ -1,0 +1,176 @@
+{
+  "successFactors": {
+    "endpoint": "https://api4.successfactors.com/odata/v2",
+    "apiVersion": "v2",
+    "description": "SAP SuccessFactors OData API endpoint"
+  },
+  "companies": [
+    {
+      "id": "COMPANY1",
+      "name": "Global Headquarters",
+      "description": "Main corporate entity",
+      "endpoint": "https://api4.successfactors.com/odata/v2",
+      "clientId": "CLIENT_ID_1",
+      "clientSecret": "CLIENT_SECRET_1",
+      "region": "US",
+      "timezone": "America/New_York",
+      "enabled": true
+    },
+    {
+      "id": "COMPANY2",
+      "name": "European Operations",
+      "description": "European subsidiary",
+      "endpoint": "https://api4.successfactors.com/odata/v2",
+      "clientId": "CLIENT_ID_2",
+      "clientSecret": "CLIENT_SECRET_2",
+      "region": "EU",
+      "timezone": "Europe/London",
+      "enabled": true
+    },
+    {
+      "id": "COMPANY3",
+      "name": "Asia Pacific",
+      "description": "APAC operations",
+      "endpoint": "https://api4.successfactors.com/odata/v2",
+      "clientId": "CLIENT_ID_3",
+      "clientSecret": "CLIENT_SECRET_3",
+      "region": "APAC",
+      "timezone": "Asia/Tokyo",
+      "enabled": true
+    }
+  ],
+  "processingSettings": {
+    "gracePeriodDays": 7,
+    "includeActiveUsers": false,
+    "autoRemediate": false,
+    "dryRun": false,
+    "maxConcurrentCompanies": 3,
+    "retryAttempts": 3,
+    "retryDelaySeconds": 30,
+    "batchSize": 100,
+    "timeoutMinutes": 30
+  },
+  "complianceSettings": {
+    "complianceThreshold": 95,
+    "criticalRiskThreshold": 30,
+    "highRiskThreshold": 14,
+    "mediumRiskThreshold": 7,
+    "enableRiskAlerts": true,
+    "escalationThreshold": 85,
+    "alertingEnabled": true
+  },
+  "reportingSettings": {
+    "outputFormats": ["HTML", "CSV", "JSON"],
+    "generateDashboard": true,
+    "consolidatedReporting": true,
+    "archiveOldReports": true,
+    "archiveAfterDays": 30,
+    "reportRetentionDays": 365,
+    "enableDetailedLogging": true
+  },
+  "notificationSettings": {
+    "enabled": true,
+    "recipients": [
+      "security@company.com",
+      "compliance@company.com",
+      "it-admin@company.com"
+    ],
+    "sendOnNonCompliance": true,
+    "sendOnCriticalRisk": true,
+    "sendConsolidatedReport": true,
+    "smtpServer": "smtp.company.com",
+    "smtpPort": 587,
+    "smtpUsername": "notifications@company.com",
+    "smtpPassword": "SMTP_PASSWORD",
+    "smtpUseSsl": true,
+    "emailSubjectPrefix": "[SAP SF Compliance]",
+    "escalationRecipients": [
+      "security-escalation@company.com",
+      "ciso@company.com"
+    ]
+  },
+  "activeDirectorySettings": {
+    "domainControllers": [
+      "dc1.company.com",
+      "dc2.company.com"
+    ],
+    "searchBase": "DC=company,DC=com",
+    "serviceAccount": "AD_SERVICE_ACCOUNT",
+    "serviceAccountPassword": "AD_SERVICE_PASSWORD",
+    "enableGroupMembership": true,
+    "privilegedGroups": [
+      "Domain Admins",
+      "Enterprise Admins",
+      "IT Administrators"
+    ]
+  },
+  "azureAdSettings": {
+    "tenantId": "TENANT_ID",
+    "clientId": "AZURE_CLIENT_ID",
+    "clientSecret": "AZURE_CLIENT_SECRET",
+    "graphApiVersion": "v1.0",
+    "enableGroupMembership": true,
+    "privilegedRoles": [
+      "Global Administrator",
+      "Security Administrator",
+      "User Administrator"
+    ]
+  },
+  "loggingSettings": {
+    "logLevel": "Info",
+    "enableFileLogging": true,
+    "enableEventLogging": true,
+    "logDirectory": "logs",
+    "maxLogSizeMB": 100,
+    "maxLogFiles": 10,
+    "enableSyslog": false,
+    "syslogServer": "syslog.company.com",
+    "syslogPort": 514
+  },
+  "securitySettings": {
+    "encryptSensitiveData": true,
+    "auditTrailEnabled": true,
+    "requireMfa": false,
+    "allowedSourceIps": [
+      "10.0.0.0/8",
+      "172.16.0.0/12",
+      "192.168.0.0/16"
+    ],
+    "certificateValidation": true,
+    "tlsMinVersion": "1.2"
+  },
+  "schedulingSettings": {
+    "enableScheduling": true,
+    "scheduleType": "Daily",
+    "scheduleTime": "02:00",
+    "scheduleTimeZone": "America/New_York",
+    "weeklySchedule": {
+      "enabled": false,
+      "dayOfWeek": "Monday",
+      "time": "02:00"
+    },
+    "monthlySchedule": {
+      "enabled": false,
+      "dayOfMonth": 1,
+      "time": "02:00"
+    }
+  },
+  "integrationSettings": {
+    "webhookUrl": "https://hooks.company.com/sap-sf-compliance",
+    "apiKey": "WEBHOOK_API_KEY",
+    "enableWebhooks": false,
+    "enableSiem": false,
+    "siemEndpoint": "https://siem.company.com/api/events",
+    "siemApiKey": "SIEM_API_KEY"
+  },
+  "version": "1.0",
+  "lastUpdated": "2024-01-01T00:00:00Z",
+  "configurationNotes": [
+    "Update company credentials in the companies section",
+    "Configure notification settings for your environment",
+    "Set appropriate compliance thresholds for your organization",
+    "Enable scheduling for automated processing",
+    "Configure Active Directory and Azure AD settings",
+    "Test connectivity before production deployment"
+  ]
+}
