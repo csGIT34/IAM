@@ -1,0 +1,38 @@
+{
+  "templateName": "Standard Group Review",
+  "description": "Standard monthly group access review for regular business groups",
+  "settings": {
+    "reviewPeriod": "P30D",
+    "recurrence": "Monthly",
+    "autoReviewEnabled": false,
+    "reviewerType": "GroupOwners",
+    "fallbackReviewers": [],
+    "notificationSettings": {
+      "enableNotifications": true,
+      "reminderFrequency": "Weekly",
+      "escalationEnabled": true,
+      "reminderDays": [7, 3, 1]
+    },
+    "decisionSettings": {
+      "defaultDecision": "None",
+      "autoApplyDecisions": false,
+      "justificationRequired": false,
+      "recommendationsEnabled": true
+    },
+    "scopeSettings": {
+      "includeGuestUsers": true,
+      "includeServicePrincipals": false,
+      "includeInactiveUsers": true
+    }
+  },
+  "applicableGroups": [
+    "Regular business groups",
+    "Department groups",
+    "Project teams"
+  ],
+  "riskLevel": "Medium",
+  "complianceFrameworks": ["SOX", "GDPR"],
+  "createdBy": "IAM Team",
+  "createdDate": "2025-07-15",
+  "version": "1.0"
+}

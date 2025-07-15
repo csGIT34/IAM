@@ -1,0 +1,52 @@
+{
+  "templateName": "High Privilege Group Review",
+  "description": "Intensive quarterly review for high-privilege and administrative groups",
+  "settings": {
+    "reviewPeriod": "P14D",
+    "recurrence": "Quarterly",
+    "autoReviewEnabled": false,
+    "reviewerType": "SelectedUsers",
+    "fallbackReviewers": [
+      "security@contoso.com",
+      "admin@contoso.com"
+    ],
+    "notificationSettings": {
+      "enableNotifications": true,
+      "reminderFrequency": "Daily",
+      "escalationEnabled": true,
+      "reminderDays": [14, 7, 3, 1],
+      "escalationDays": [5, 2]
+    },
+    "decisionSettings": {
+      "defaultDecision": "Deny",
+      "autoApplyDecisions": false,
+      "justificationRequired": true,
+      "recommendationsEnabled": true,
+      "managerApprovalRequired": true
+    },
+    "scopeSettings": {
+      "includeGuestUsers": true,
+      "includeServicePrincipals": true,
+      "includeInactiveUsers": true,
+      "includeNestedGroups": true
+    },
+    "additionalSettings": {
+      "requireMultipleApprovers": true,
+      "minimumApprovers": 2,
+      "preventSelfApproval": true,
+      "auditAllDecisions": true
+    }
+  },
+  "applicableGroups": [
+    "Global Administrators",
+    "Privileged Role Administrators",
+    "Security Administrators",
+    "Domain Admins",
+    "IT Administrators"
+  ],
+  "riskLevel": "High",
+  "complianceFrameworks": ["SOX", "GDPR", "HIPAA", "PCI-DSS"],
+  "createdBy": "Security Team",
+  "createdDate": "2025-07-15",
+  "version": "1.0"
+}

@@ -28,6 +28,14 @@ This repository contains comprehensive Identity and Access Management solutions 
 - Real-time directory health monitoring
 - **Status**: 🚧 In Development
 
+### 4. [Entra ID Group Access Reviews](EntraAccessReviews/)
+**Automated creation and management of Entra ID group access reviews**
+- PowerShell-based access review automation
+- Bulk operations for multiple groups
+- Customizable review templates and settings
+- Azure Automation integration for scheduling
+- **Status**: 🚧 In Development
+
 ## � Repository Structure
 
 ```
@@ -46,6 +54,12 @@ IAM/
 │   ├── src/                       # TypeScript source code
 │   ├── scripts/                   # PowerShell setup scripts
 │   ├── tests/                     # Test suite
+│   ├── config/                    # Configuration files
+│   └── README.md                  # Solution overview
+├── EntraAccessReviews/            # Entra ID group access reviews
+│   ├── Create-GroupAccessReview.ps1      # Single group review creation
+│   ├── Create-BulkAccessReviews.ps1      # Bulk review operations
+│   ├── templates/                 # Review configuration templates
 │   ├── config/                    # Configuration files
 │   └── README.md                  # Solution overview
 └── README.md                      # This file
@@ -74,6 +88,14 @@ npm install
 .\Install-Prerequisites.ps1
 npm run build
 npm start
+```
+
+### For Entra ID Group Access Reviews
+```powershell
+cd EntraAccessReviews
+.\Install-Prerequisites.ps1
+.\Create-GroupAccessReview.ps1 -GroupName "IT-Admins" -ReviewName "Monthly Review"
+.\Create-BulkAccessReviews.ps1 -GroupsCsvPath ".\groups.csv" -TemplateFile ".\templates\standard.json"
 ```
 cd RoleAssignmentMonitoring
 .\Install-Prerequisites.ps1
