@@ -36,6 +36,14 @@ This repository contains comprehensive Identity and Access Management solutions 
 - Azure Automation integration for scheduling
 - **Status**: 🚧 In Development
 
+### 5. [MFA Registration Reporting](MFARegistrationReporting/)
+**Comprehensive MFA registration status reporting and analysis**
+- Real-time MFA registration status monitoring
+- Multi-tenant bulk reporting capabilities
+- Risk assessment and compliance tracking
+- HTML dashboards and CSV/JSON exports
+- **Status**: 🚧 In Development
+
 ## � Repository Structure
 
 ```
@@ -61,6 +69,13 @@ IAM/
 │   ├── Create-BulkAccessReviews.ps1      # Bulk review operations
 │   ├── templates/                 # Review configuration templates
 │   ├── config/                    # Configuration files
+│   └── README.md                  # Solution overview
+├── MFARegistrationReporting/      # MFA registration status reporting
+│   ├── Get-MFARegistrationStatus.ps1     # Single tenant reporting
+│   ├── Start-BulkMFAReporting.ps1        # Multi-tenant bulk reporting
+│   ├── Install-Prerequisites.ps1          # Prerequisites installation
+│   ├── config/                    # Configuration files
+│   ├── Tests/                     # Test suite
 │   └── README.md                  # Solution overview
 └── README.md                      # This file
 ```
@@ -96,6 +111,14 @@ cd EntraAccessReviews
 .\Install-Prerequisites.ps1
 .\Create-GroupAccessReview.ps1 -GroupName "IT-Admins" -ReviewName "Monthly Review"
 .\Create-BulkAccessReviews.ps1 -GroupsCsvPath ".\groups.csv" -TemplateFile ".\templates\standard.json"
+```
+
+### For MFA Registration Reporting
+```powershell
+cd MFARegistrationReporting
+.\Install-Prerequisites.ps1
+.\Get-MFARegistrationStatus.ps1 -OutputFormat HTML -ExportPath ".\mfa-report.html"
+.\Start-BulkMFAReporting.ps1 -ConfigPath ".\config\reporting-config.json" -OutputDirectory ".\reports"
 ```
 cd RoleAssignmentMonitoring
 .\Install-Prerequisites.ps1

@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "tenants": [
+    {
+      "id": "your-tenant-id-1",
+      "name": "Production Tenant",
+      "description": "Main production environment",
+      "enabled": true,
+      "priority": 1
+    },
+    {
+      "id": "your-tenant-id-2",
+      "name": "Development Tenant",
+      "description": "Development environment",
+      "enabled": false,
+      "priority": 2
+    }
+  ],
+  "reportSettings": {
+    "includeDisabledUsers": false,
+    "includeAuthMethods": true,
+    "generateRecommendations": true,
+    "filterByLicenseStatus": "All",
+    "complianceThreshold": 90,
+    "outputFormats": ["HTML", "CSV", "JSON"],
+    "archiveAfterDays": 30
+  },
+  "scheduling": {
+    "enabled": false,
+    "frequency": "Daily",
+    "time": "09:00",
+    "daysOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+  },
+  "emailConfiguration": {
+    "enabled": false,
+    "smtpServer": "smtp.office365.com",
+    "smtpPort": 587,
+    "useSSL": true,
+    "sender": "reports@yourdomain.com",
+    "recipients": ["admin@yourdomain.com", "security@yourdomain.com"],
+    "subject": "MFA Registration Status Report",
+    "attachReports": true
+  },
+  "security": {
+    "enableAuditLogging": true,
+    "auditLogPath": "./logs/audit.log",
+    "encryptReports": false,
+    "dataRetentionDays": 365
+  },
+  "performance": {
+    "batchSize": 100,
+    "maxConcurrentRequests": 10,
+    "requestTimeout": 30,
+    "retryAttempts": 3,
+    "retryDelay": 2
+  }
+}

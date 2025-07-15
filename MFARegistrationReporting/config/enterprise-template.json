@@ -1,0 +1,105 @@
+{
+  "name": "Enterprise MFA Compliance Report",
+  "description": "Comprehensive MFA registration and compliance reporting template",
+  "version": "1.0",
+  "author": "IT Security Team",
+  "settings": {
+    "reportTitle": "Multi-Factor Authentication Registration Status",
+    "complianceThreshold": 95,
+    "riskThresholds": {
+      "high": 50,
+      "medium": 30,
+      "low": 0
+    },
+    "includeCharts": true,
+    "includeRecommendations": true,
+    "includeExecutiveSummary": true,
+    "includeDetailedAnalysis": true
+  },
+  "filters": {
+    "includeDisabledUsers": false,
+    "includeLicensedUsersOnly": true,
+    "excludeServiceAccounts": true,
+    "excludeExternalUsers": true,
+    "departmentFilter": null,
+    "locationFilter": null,
+    "licenseTypeFilter": null
+  },
+  "outputOptions": {
+    "formats": ["HTML", "CSV", "JSON"],
+    "includeRawData": false,
+    "compressOutput": false,
+    "passwordProtect": false
+  },
+  "branding": {
+    "organizationName": "Your Organization",
+    "logoUrl": "",
+    "primaryColor": "#0078d4",
+    "secondaryColor": "#005a9e",
+    "fontFamily": "Arial, sans-serif"
+  },
+  "scheduling": {
+    "frequency": "Weekly",
+    "dayOfWeek": "Monday",
+    "time": "08:00",
+    "timeZone": "UTC"
+  },
+  "notifications": {
+    "sendOnCompletion": true,
+    "sendOnFailure": true,
+    "sendOnlyIfChanges": false,
+    "escalateOnNonCompliance": true
+  },
+  "customFields": [
+    {
+      "name": "BusinessUnit",
+      "displayName": "Business Unit",
+      "type": "string",
+      "required": false,
+      "includeInReport": true
+    },
+    {
+      "name": "CostCenter",
+      "displayName": "Cost Center",
+      "type": "string",
+      "required": false,
+      "includeInReport": false
+    },
+    {
+      "name": "EmployeeType",
+      "displayName": "Employee Type",
+      "type": "string",
+      "required": false,
+      "includeInReport": true
+    }
+  ],
+  "complianceFrameworks": [
+    {
+      "name": "SOX",
+      "description": "Sarbanes-Oxley Act compliance",
+      "requirements": {
+        "mfaRegistrationRate": 100,
+        "privilegedUserMFA": 100,
+        "auditingEnabled": true
+      }
+    },
+    {
+      "name": "GDPR",
+      "description": "General Data Protection Regulation",
+      "requirements": {
+        "mfaRegistrationRate": 90,
+        "dataRetentionDays": 365,
+        "auditingEnabled": true
+      }
+    },
+    {
+      "name": "HIPAA",
+      "description": "Health Insurance Portability and Accountability Act",
+      "requirements": {
+        "mfaRegistrationRate": 95,
+        "privilegedUserMFA": 100,
+        "auditingEnabled": true
+      }
+    }
+  ]
+}
